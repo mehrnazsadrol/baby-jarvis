@@ -8,7 +8,7 @@ A fully local voice-to-code agent. Say "hey jarvis", speak a natural-language co
 
 ## Requirements
 
-- Python 3.13
+- Python 3.12
 - [Ollama](https://ollama.com) installed and running locally
 
 ---
@@ -39,14 +39,19 @@ ollama pull deepseek-coder:6.7b
 ### 3. Create a virtual environment
 
 ```bash
-python3.13 -m venv .venv
+python3.12 -m venv .venv --without-pip
 source .venv/bin/activate
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+DYLD_LIBRARY_PATH=/opt/homebrew/opt/expat/lib python3.12 get-pip.py
+rm get-pip.py
 ```
+
+> **macOS only:** Homebrew's Python links against a newer `libexpat` than macOS ships. The `DYLD_LIBRARY_PATH` prefix ensures the right version is used. Add `export DYLD_LIBRARY_PATH=/opt/homebrew/opt/expat/lib` to your `~/.zshrc` to avoid typing it each time.
 
 ### 4. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+DYLD_LIBRARY_PATH=/opt/homebrew/opt/expat/lib python3.12 -m pip install -r requirements.txt
 ```
 
 ### 5. Download wake word models
@@ -64,7 +69,7 @@ source .venv/bin/activate
 python3 main.py
 ```
 
-Say **"hey jarvis"**, wait for the beep, then speak your request. The generated code is copied to your clipboard.
+Say **"hey jarvis"**, wait for Jarvis to say *"I'm listening"*, then speak your request. The generated code is copied to your clipboard.
 
 ---
 
