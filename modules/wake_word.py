@@ -1,8 +1,4 @@
-"""
-wake_word.py — Continuously streams mic audio to openwakeword.
-Calls the provided callback when the wake phrase is detected.
-"""
-
+import subprocess
 import threading
 import numpy as np
 import sounddevice as sd
@@ -10,22 +6,11 @@ from openwakeword.model import Model
 from config import SAMPLE_RATE, WAKE_WORD, WAKE_WORD_THRESHOLD
 
 
-def _beep():
-    """Play a short confirmation beep using sounddevice."""
-    duration = 0.15  # seconds
-    freq = 880        # Hz
-    t = np.linspace(0, duration, int(SAMPLE_RATE * duration), False)
-    tone = (np.sin(2 * np.pi * freq * t) * 0.3).astype(np.float32)
-    sd.play(tone, samplerate=SAMPLE_RATE)
-    sd.wait()
+def _say_listening():
+    subprocess.run(["say", "I'm listening"], check=False)
 
 
 class WakeWordDetector:
-    """
-    Runs openwakeword in a background thread.
-    Fires on_detected() when the wake phrase is heard.
-    """
-
     def __init__(self, on_detected):
         self.on_detected = on_detected
         self.running = False
@@ -52,7 +37,7 @@ class WakeWordDetector:
 
                     score = predictions.get(WAKE_WORD, 0.0)
                     if score >= WAKE_WORD_THRESHOLD:
-                        _beep()
+                        _say_listening()
                         self.model.reset()
                         break
 

@@ -1,16 +1,8 @@
-"""
-code_gen.py — Sends transcribed text to Ollama and streams back generated code.
-"""
-
 import ollama
 from config import OLLAMA_MODEL, OLLAMA_HOST, SYSTEM_PROMPT
 
 
 def generate_code(prompt: str) -> str:
-    """
-    Send a natural-language prompt to Ollama and return the generated code.
-    Streams tokens to the terminal in real time.
-    """
     print(f"\n  🤖  Generating code with {OLLAMA_MODEL}...\n")
     print("  " + "─" * 60)
 
