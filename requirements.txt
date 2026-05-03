@@ -1,7 +1,7 @@
 faster-whisper
 sounddevice
 numpy
-webrtcvad
+webrtcvad-wheels
 pyperclip
 ollama
 openwakeword

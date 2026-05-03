@@ -41,16 +41,20 @@ class WakeWordDetector:
         self.running = False
 
     def _listen_loop(self):
-        chunk = 1280  # ~80ms at 16kHz — required by openwakeword
+        chunk = 1280
 
-        with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="int16") as stream:
-            while self.running:
-                audio, _ = stream.read(chunk)
-                pcm = audio[:, 0]  # mono
-                predictions = self.model.predict(pcm)
+        while self.running:
+            with sd.InputStream(samplerate=SAMPLE_RATE, channels=1, dtype="int16") as stream:
+                while self.running:
+                    audio, _ = stream.read(chunk)
+                    pcm = audio[:, 0]
+                    predictions = self.model.predict(pcm)
 
-                score = predictions.get(WAKE_WORD, 0.0)
-                if score >= WAKE_WORD_THRESHOLD:
-                    _beep()
-                    self.model.reset()  # reset scores to avoid repeated triggers
-                    self.on_detected()
+                    score = predictions.get(WAKE_WORD, 0.0)
+                    if score >= WAKE_WORD_THRESHOLD:
+                        _beep()
+                        self.model.reset()
+                        break
+
+            if self.running:
+                self.on_detected()

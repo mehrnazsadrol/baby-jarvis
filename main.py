@@ -1,5 +1,5 @@
 """
-main.py — Voice-to-Code Agent entry point.
+main.py — Baby Jarvis entry point.
 
 Flow:
   [always listening] → wake word "hey jarvis" → 🔔 beep
@@ -54,7 +54,7 @@ def on_wake_word():
 
 def main():
     print("\n" + "═" * 64)
-    print("  🎤  Voice-to-Code Agent")
+    print("  🎤  Baby Jarvis")
     print(f"  Wake word : \"{WAKE_WORD.replace('_', ' ')}\"")
     print("  Output    : clipboard")
     print("  Press Ctrl+C to quit.")

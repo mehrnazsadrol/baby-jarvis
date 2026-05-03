@@ -1,4 +1,4 @@
-# voice-to-code configuration
+# baby-jarvis configuration
 
 # Wake word (phrase openwakeword will listen for)
 WAKE_WORD = "hey_jarvis"  # openwakeword built-in model; see docs to add custom phrases
